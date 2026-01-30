@@ -1,0 +1,7 @@
+{
+  "pack": {
+    "description": "Custom resource pack for plugin with custom model data",
+    "min_format": 69,
+    "max_format": 69
+  }
+}

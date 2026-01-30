@@ -1,0 +1,52 @@
+package org.m9mx.lumenV2.items;
+
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Material;
+import org.m9mx.lumenV2.item.CustomItem;
+import org.m9mx.lumenV2.item.Recipe;
+import org.m9mx.lumenV2.item.RecipeType;
+import java.util.Arrays;
+
+/**
+ * Test item - used to demonstrate LUMEN: prefixed recipe functionality
+ */
+public class TestItem extends CustomItem {
+    
+    public TestItem() {
+        super("test");
+    }
+    
+    @Override
+    protected void initialize() {
+        setMaterial(Material.NETHER_STAR);
+        setDisplayName(Component.text("Test Item", TextColor.color(0xFFA500), TextDecoration.BOLD));
+        setLore(Arrays.asList(
+                Component.text("This is a test item", TextColor.color(0xFFFF00)),
+                Component.text("Used to test LUMEN: prefixed recipes", TextColor.color(0xFFFF00))));
+        setItemModel("lumen:test");
+        
+        // Create recipe that uses LUMEN: prefixed custom items
+        Recipe recipe = new Recipe("test_item_recipe", RecipeType.NORMAL);
+        
+        // Example recipe with LUMEN: prefixed custom items
+        // Top row: 8 gold blocks, LUMEN catalyst shard, 8 gold blocks
+        recipe.setSlot(0, 0, "GOLD_BLOCK", 8);
+        recipe.setSlot(0, 1, "LUMEN:CATALYST_SHARD", 1); // This is the key - using LUMEN: format
+        recipe.setSlot(0, 2, "GOLD_BLOCK", 8);
+        
+        // Middle row: blaze rod, diamond, blaze rod
+        recipe.setSlot(1, 0, "BLAZE_ROD", 1);
+        recipe.setSlot(1, 1, "DIAMOND", 1);
+        recipe.setSlot(1, 2, "BLAZE_ROD", 1);
+        
+        // Bottom row: gold blocks
+        recipe.setSlot(2, 0, "GOLD_BLOCK", 8);
+        recipe.setSlot(2, 1, "GOLDEN_APPLE", 1);
+        recipe.setSlot(2, 2, "GOLD_BLOCK", 8);
+        
+        recipe.setResult("test");
+        setRecipe(recipe);
+    }
+}

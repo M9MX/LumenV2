@@ -1,0 +1,28 @@
+# Lumen V2 Configuration
+
+settings:
+  debug: false
+
+# Resource Pack Configuration
+resource_pack:
+  # Mode: auto_host, self_host, or none
+  # auto_host: Plugin hosts the resource pack automatically on a specified port
+  # self_host: You provide the URL and SHA-1 hash yourself
+  # none: No resource pack sent (players see default textures)
+  mode: "none"
+  
+  # AUTO_HOST MODE SETTINGS
+  auto_host:
+    # Port to host the resource pack on (default: 8080)
+    port: 8080
+  
+  # SELF_HOST MODE SETTINGS
+  self_host:
+    # Full URL to your resource pack zip file
+    # Recommended hosting: https://mc-packs.net/ (free, easy to use)
+    # Upload your resourcepack.zip there and copy the direct download link here
+    url: "https://example.com/resourcepack.zip"
+    # SHA-1 hash of your resource pack zip file
+    # Use online SHA-1 calculator or: certUtil -hashfile resourcepack.zip SHA1
+    # To get SHA-1 from mc-packs.net: right-click the pack, view details for SHA-1
+    sha1: "0000000000000000000000000000000000000000"

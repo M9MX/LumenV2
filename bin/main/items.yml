@@ -1,0 +1,65 @@
+# Lumen V2 Items Configuration
+
+# Ethereal Katana - Ability Configuration
+ethereal_katana:
+  enabled: true
+  
+  # Spectral Dash Ability
+  dash:
+    soul_cost: 1
+    cooldown: 30  # seconds
+    base_range: 8  # blocks
+    base_damage: 2.0  # HP (ignores armor)
+  
+  # Spectral Nova Ability  
+  nova:
+    soul_cost: 5
+    cooldown: 120  # seconds
+    base_radius: 6  # blocks
+    base_damage: 4.0  # HP (ignores armor)
+    knockback_multiplier: 2.5
+    knockback_upward: 0.8
+  
+  # Soul System
+  souls:
+    player_kill_bonus: 5
+    mob_kill_rate: 10  # souls per X mob kills
+    mob_kill_bonus: 1
+    max_souls: 20
+
+# Solstice - Ability Configuration
+solstice:
+  enabled: true
+  
+  # Sunbeam Ability
+  sunbeam:
+    base_damage: 6.0  # HP
+    radius: 3  # blocks
+    cooldown: 120  # seconds
+
+# Soulrender - Ability Configuration
+soulrender:
+  enabled: true
+  
+  # Skeletal Horse Ability
+  horse:
+    duration: 90  # seconds
+    cooldown: 180  # seconds
+    speed: 16.0  # blocks/sec
+    health: 25.0  # hearts
+
+# Lotus Blossom - Ability Configuration
+lotus_blossom:
+  enabled: true
+  
+  # Blossom Shield Ability
+  shield:
+    duration: 10  # seconds
+    cooldown: 60  # seconds
+    damage_reduction: 0.5  # 50% damage reduction
+    thorns_multiplier: 1.5  # 1.5x damage reflected back to attacker
+# Reinforced Mesh - Configuration
+reinforced_mesh:
+  enabled: false  # DON'T ENABLE THIS ITEM, Its not finished and buggy
+
+# Add more item configurations below

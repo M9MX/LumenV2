@@ -1,0 +1,108 @@
+plugins {
+    id 'java'
+    id("xyz.jpenilla.run-paper") version "2.3.1"
+}
+
+group = 'org.m9mx'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+    maven {
+        name = "codemc-repo"
+        url = "https://repo.codemc.io/repository/maven-public/"
+    }
+}
+
+dependencies {
+    compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
+    compileOnly("net.kyori:adventure-text-minimessage:4.17.0")
+}
+
+tasks {
+    runServer {
+        // Configure the Minecraft version for our task.
+        // This is the only required configuration besides applying the plugin.
+        // Your plugin's jar (or shadowJar if present) will be used automatically.
+        minecraftVersion("1.21.10")
+    }
+}
+
+def targetJavaVersion = 21
+java {
+    def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+    if (JavaVersion.current() < javaVersion) {
+        toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+
+    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
+        options.release.set(targetJavaVersion)
+    }
+}
+// Task to zip the resource pack
+task zipResourcePack {
+    doLast {
+        def packDir = file("${projectDir}/src/main/resources/pack")
+        def packZip = file("${buildDir}/resourcepack.zip")
+        
+        if (packDir.exists()) {
+            packZip.getParentFile().mkdirs()
+            
+            ant.zip(
+                destfile: packZip,
+                basedir: packDir,
+                includes: "**/*"
+            )
+            
+            println "Resource pack zipped to ${packZip}"
+        } else {
+            println "Warning: Resource pack directory not found at ${packDir}"
+        }
+    }
+}
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('paper-plugin.yml') {
+        expand props
+    }
+    
+    dependsOn zipResourcePack
+    
+    doLast {
+        def packZip = file("${buildDir}/resourcepack.zip")
+        if (packZip.exists()) {
+            copy {
+                from packZip
+                into "${buildDir}/resources/main"
+            }
+        }
+    }
+}
+// FAT JAR configuration - includes NBT-API and all dependencies
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    
+    duplicatesStrategy = 'EXCLUDE'
+    
+    manifest {
+        attributes(
+            'Main-Class': 'org.m9mx.lumen.Lumen',
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version
+        )
+    }
+}
